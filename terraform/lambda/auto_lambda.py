@@ -10,10 +10,10 @@ def lambda_handler(event, context):
     current_value = [[80]]  # You can dynamically fetch via event if desired
     
     # AI Anomaly Detection Model
-    model = IsolationForest()
+    model = IsolationForest() # train AI model
     model.fit(data)
     
-    result = model.predict(current_value)
+    result = model.predict(current_value)  # use AI to predict wheather new current value is weird or not.
     
     if result[0] == -1:  # -1 means anomalies detected
         ec2 = boto3.client('ec2', region_name='us-east-1')
