@@ -1,25 +1,33 @@
-provider "aws" {
-  region = "us-east-1"
+provider "aws"{
+alias = "ohio"
+region = "us-east-2"
+access_key = "AKIATAVAA3HGxxxxxxxx"
+secret_key = "mWDCE19XIkhGbBxxxxxxxxxx/RUJ4ZLU1rg/DxT"
 }
 
-# Primary EC2 instance
-resource "aws_instance" "primary" {
-  ami           = "ami-0c02fb5595xxxxxx"  # Amazon Linux 2 (t2.micro free-tier)
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "PrimaryEC2"
-    Role = "Primary"
-  }
+provider "aws"{
+alias = "virginia"
+region = "us-east-1"
+access_key = "AKIATAVAA3HGxxxxxxxxx"
+secret_key = "mWDCE19XIkhGbBxxxxxxxxx/RUJ4ZLU1rg/DxT"
 }
 
-# Secondary (Backup) EC2 instance
-resource "aws_instance" "secondary" {
-  ami           = "ami-04b4f1a9cxxxxxxxxx"
-  instance_type = "t2.micro"
 
-  tags = {
-    Name = "SecondaryEC2"
-    Role = "Backup"
-  }
+resource "aws_instance" "ohio_instance"{
+ provider = aws.ohio
+ ami = "ami-0cb91c7de36xxxxx"
+ instance_type = "t2.micro"
+ tags={
+  Name = "Primary_EC2"
+  Role = "primary"
+}
+}
+resource "aws_instance" "virginia_instance"{
+ provider = aws.virginia
+ ami = "ami-04b4f1a9cf5xxxxx"
+ instance_type = "t2.micro"
+ tags={
+  Name = "Secondary_EC2"
+  Role = "Backup"
+}
 }
